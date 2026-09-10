@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: local-db
+  labels:
+    app: local-db
 spec:
   replicas: 1
   selector:
@@ -14,13 +16,34 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:latest
+          image: postgres:16
           ports:
             - containerPort: 5432
+
           env:
             - name: POSTGRES_USER
-              value: "postgres"
+              valueFrom:
+                configMapKeyRef:
+                  name: lms-config
+                  key: POSTGRES_USER
+
             - name: POSTGRES_PASSWORD
-              value: "admin123"
+              valueFrom:
+                secretKeyRef:
+                  name: lms-secret
+                  key: POSTGRES_PASSWORD
+
             - name: POSTGRES_DB
-              value: "mydb"
+              valueFrom:
+                configMapKeyRef:
+                  name: lms-config
+                  key: POSTGRES_DB
+
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql
+
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc

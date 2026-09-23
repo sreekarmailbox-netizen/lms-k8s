@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api-server
-          image: 668855906895.dkr.ecr.ap-south-1.amazonaws.com/webapp:latest
+          image: 668855906895.dkr.ecr.ap-south-1.amazonaws.com/api:latest
           imagePullPolicy: Always
 
           ports:

@@ -20,9 +20,9 @@ spec:
       containers:
         - name: web-server
 
-          image: lms-web:1.0
+          image: 668855906895.dkr.ecr.ap-south-1.amazonaws.com/webapp:latest
 
-          imagePullPolicy: Never
+          imagePullPolicy: Always
 
           ports:
             - containerPort: 80
